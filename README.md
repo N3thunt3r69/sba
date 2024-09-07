@@ -6,12 +6,12 @@
   * Highly configurable
     - An abstract interpretation based framework that allows user to define abstract domains and configure instruction evaluation.
   * Sound and precise reasoning about stack memory
-    - Stack access is very common, e.g., local variables, register spilling, etc.
+    - A stack memory model at byte-level granularity, and sound and efficient approximations for imprecise updates on stack.
   * Architecture-neutral
-    - Decouple analysis from architecture specifics
+    - Decouple analysis from architecture specifics such as assembly languages and ABI specifications.
 
 ## Getting Started
-### Dependencies:
+### Dependencies
 ```
 sudo apt-get install g++ ocaml camlp4-extra camlp4 tar cmake make
 ```
@@ -31,3 +31,10 @@ By default, SBA creates temporary files and outputs result in `/tmp/sba/`. These
 ```
 ./jump_table -d /tmp/sba/ -o /tmp/sba/result x86_64.auto ~/obj
 ```
+
+## Publications
+SBA has contributed significantly to the implementation of the following works:
+1. Scalable, Sound, and Accurate Jump Table Analysis. ISSTA 2024.
+2. Accurate Disassembly of Complex Binaries Without Use of Compiler Metadata. ASPLOS 2023.
+3. SAFER: Efficient and Error-Tolerant Binary Instrumentation. USENIX 2023.
+4. Practical fine-grained binary code randomization. ACSAC 2020.
