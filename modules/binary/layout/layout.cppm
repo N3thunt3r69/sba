@@ -46,11 +46,18 @@ export namespace SBA::Binary {
 	};
 
 	struct Segment {
-		uint64_t			 address;
-		uint64_t			 size;
-		uint64_t			 file_size;
-		uint8_t				 flags;
-		std::vector<uint8_t> bytes;
+		uint64_t				address;
+		uint64_t				size;
+		uint64_t				file_size;
+		uint8_t					flags;
+		std::vector<uint8_t>	bytes;
+
+		bool executable() const { return flags & EXECUTABLE; }
+		bool writable()   const { return flags & WRITABLE; }
+		bool readable()   const { return flags & READABLE; }
+		bool contains(uint64_t addr) const {
+			return addr >= address && addr < (address + size);
+		}
 	};
 
 	struct Symbol {

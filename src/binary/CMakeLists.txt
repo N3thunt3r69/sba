@@ -9,6 +9,9 @@ target_sources(binary
 				${CMAKE_SOURCE_DIR}/modules/framework/error.cppm
 				${CMAKE_SOURCE_DIR}/modules/framework/framework.cppm
 				${CMAKE_SOURCE_DIR}/modules/binary/layout/layout.cppm
+				${CMAKE_SOURCE_DIR}/modules/binary/layout/object.cppm
+	PRIVATE
+		layout/object.cpp
 )
 
 target_include_directories(binary PRIVATE ${LLVM_INCLUDE_DIRS})

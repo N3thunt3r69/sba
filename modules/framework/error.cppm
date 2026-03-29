@@ -8,6 +8,7 @@ export namespace SBA {
 	enum class Error : uint8_t {
 		LOAD_ERROR,
 		INVALID_FORMAT,
+		OVERLAPPING_SEGMENTS
 	};
 
 }
