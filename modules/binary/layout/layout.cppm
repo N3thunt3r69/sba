@@ -1,13 +1,13 @@
 module;
-#include <string>
 #include <cstdint>
-#include <span>
+#include <string>
+#include <vector>
 
 export module sba.binary.layout;
 
 export namespace SBA::Binary {
 
-	enum class Endian {
+	enum class Endian : uint8_t {
 		LITTLE,
 		BIG
 	};
@@ -46,11 +46,11 @@ export namespace SBA::Binary {
 	};
 
 	struct Segment {
-		uint64_t		address;
-		uint64_t		size;
-		uint64_t		file_size;
-		uint8_t			flags;
-		std::span<const uint8_t> bytes;
+		uint64_t			 address;
+		uint64_t			 size;
+		uint64_t			 file_size;
+		uint8_t				 flags;
+		std::vector<uint8_t> bytes;
 	};
 
 	struct Symbol {
