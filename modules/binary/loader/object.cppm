@@ -2,18 +2,22 @@ module;
 #include <cstdint>
 #include <expected>
 #include <optional>
+#include <string>
 #include <vector>
 
 export module sba.binary.object;
 
-export import sba.binary.layout;
+export import sba.binary.types;
 export import sba.framework;
 
 export namespace SBA::Binary {
 
 	class Object {
 	public:
-		virtual ~Object() = default;
+		Object() = default;
+		~Object() = default;
+
+		std::expected<void, Error> load(const std::string& path);
 
 		Endian endian() const;
 		std::optional<uint64_t> program_entry() const;
@@ -22,11 +26,10 @@ export namespace SBA::Binary {
 		const std::vector<Export>& exports() const;
 		const std::vector<Import>& imports() const;
 		const std::vector<Relocation>& relocations() const;
+
 		std::optional<uint64_t> read(uint64_t addr, uint8_t width) const;
 
-		virtual std::expected<void, Error> load() = 0;
-
-	protected:
+	private:
 		Endian endian_;
 		std::optional<uint64_t> program_entry_;
 		std::vector<Segment> segments_;

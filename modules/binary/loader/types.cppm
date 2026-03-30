@@ -1,9 +1,8 @@
 module;
 #include <cstdint>
 #include <string>
-#include <vector>
 
-export module sba.binary.layout;
+export module sba.binary.types;
 
 export namespace SBA::Binary {
 
@@ -46,11 +45,11 @@ export namespace SBA::Binary {
 	};
 
 	struct Segment {
-		uint64_t				address;
-		uint64_t				size;
-		uint64_t				file_size;
-		uint8_t					flags;
-		std::vector<uint8_t>	bytes;
+		uint64_t		address;
+		uint64_t		size;
+		uint64_t		file_size;
+		uint8_t*		bytes;
+		uint8_t			flags;
 
 		bool executable() const { return flags & EXECUTABLE; }
 		bool writable()   const { return flags & WRITABLE; }

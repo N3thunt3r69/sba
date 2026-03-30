@@ -1,8 +1,8 @@
 module;
-#include <cstdint>
-#include <optional>
 #include <algorithm>
+#include <cstdint>
 #include <expected>
+#include <optional>
 #include <llvm/Support/Endian.h>
 
 module sba.binary.object;
@@ -36,6 +36,16 @@ namespace SBA::Binary {
 										llvm::support::unaligned>(ptr) :
 			llvm::support::endian::read<T, llvm::endianness::big,
 										llvm::support::unaligned>(ptr);
+	}
+
+	Object::~Object() {
+		for (auto& seg : segments_)
+			if (seg.bytes)
+				delete[] seg.bytes;
+	}
+
+	std::expected<void, Error> Object::load(const std::string& path) {
+		return {};
 	}
 
 	Endian Object::endian() const {
@@ -80,10 +90,10 @@ namespace SBA::Binary {
 		if (offset >= seg->file_size) [[unlikely]]
 			return 0;
 
-		if (seg->bytes.empty() || offset + width > seg->file_size) [[unlikely]]
+		if (!seg->bytes || offset + width > seg->file_size) [[unlikely]]
 			return std::nullopt;
 
-		const uint8_t* ptr = seg->bytes.data() + offset;
+		const uint8_t* ptr = seg->bytes + offset;
 
 		switch (width) {
 			case 1: return *ptr;

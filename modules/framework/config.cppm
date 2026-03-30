@@ -1,3 +1,5 @@
+module;
+
 export module sba.framework.config;
 
 export namespace SBA {

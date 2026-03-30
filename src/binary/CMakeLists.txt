@@ -8,10 +8,10 @@ target_sources(binary
 				${CMAKE_SOURCE_DIR}/modules/framework/config.cppm
 				${CMAKE_SOURCE_DIR}/modules/framework/error.cppm
 				${CMAKE_SOURCE_DIR}/modules/framework/framework.cppm
-				${CMAKE_SOURCE_DIR}/modules/binary/layout/layout.cppm
-				${CMAKE_SOURCE_DIR}/modules/binary/layout/object.cppm
+				${CMAKE_SOURCE_DIR}/modules/binary/loader/types.cppm
+				${CMAKE_SOURCE_DIR}/modules/binary/loader/object.cppm
 	PRIVATE
-		layout/object.cpp
+		loader/object.cpp
 )
 
 target_include_directories(binary PRIVATE ${LLVM_INCLUDE_DIRS})
