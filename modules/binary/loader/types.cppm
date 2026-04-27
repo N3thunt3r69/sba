@@ -1,5 +1,7 @@
 module;
 #include <cstdint>
+#include <memory>
+#include <optional>
 #include <string>
 
 export module sba.binary.types;
@@ -45,47 +47,48 @@ export namespace SBA::Binary {
 	};
 
 	struct Segment {
-		uint64_t		address;
-		uint64_t		size;
-		uint64_t		file_size;
-		uint8_t*		bytes;
-		uint8_t			flags;
+		uint64_t	address;
+		uint64_t	size;
+		uint64_t	file_size;
+		uint8_t		flags;
+		std::unique_ptr<uint8_t[]> bytes;
 
 		bool executable() const { return flags & EXECUTABLE; }
 		bool writable()   const { return flags & WRITABLE; }
 		bool readable()   const { return flags & READABLE; }
-		bool contains(uint64_t addr) const {
-			return addr >= address && addr < (address + size);
-		}
+
+		bool contains(uint64_t addr) const;
+		std::optional<uint64_t>
+			read(uint64_t addr, uint8_t width, Endian endian) const;
 	};
 
 	struct Symbol {
-		uint64_t		address;
-		uint64_t		size;
-		SymbolType		type;
-		SymbolBind		bind;
-		SymbolScope		scope;
-		SymbolMode		mode;
-		std::string		name;
+		uint64_t	address;
+		uint64_t	size;
+		SymbolType	type;
+		SymbolBind	bind;
+		SymbolScope	scope;
+		SymbolMode	mode;
+		std::string	name;
 	};
 
 	struct Export : public Symbol {
-		uint32_t		ordinal = 0;
-		std::string		forward_library_name;
-		std::string		forward_symbol_name;
+		uint32_t	ordinal = 0;
+		std::string	forward_library;
+		std::string	forward_symbol;
 	};
 
 	struct Import : public Symbol {
-		uint32_t		ordinal = 0;
-		std::string		library_name;
+		uint32_t	ordinal = 0;
+		std::string	library_name;
 	};
 
 	struct Relocation {
-		uint64_t		address;
-		uint64_t		target;
-		int64_t			offset;
-		uint32_t		type;
-		std::string		name;
+		uint64_t	address;
+		uint64_t	target;
+		int64_t		addend;
+		uint32_t	type;
+		std::string	name;
 	};
 
 }

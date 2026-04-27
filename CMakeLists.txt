@@ -5,7 +5,7 @@ project(SBA
 	LANGUAGES CXX C
 )
 
-set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_CXX_SCAN_FOR_MODULES ON)
@@ -31,5 +31,6 @@ llvm_map_components_to_libnames(llvm_libs
 	AArch64
 )
 
+add_subdirectory(src/binary)
 add_subdirectory(src/analysis)
 add_subdirectory(tools)
