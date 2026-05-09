@@ -42,14 +42,15 @@ namespace SBA::Binary {
 			return std::unexpected(Error::INVALID_FORMAT);
 		}
 
-		if (auto* obj = llvm::dyn_cast<llvm::object::ObjectFile>(bin.get().getBinary())) {
-			if (obj->isELF()) {
-				if (auto err = parse_elf(obj, endian_, entry_, segments_,
-										 symbols_, exports_, imports_, relocs_);
-				!err)
-					return err;
-				return validate();
-			}
+		auto* generic_bin = bin.get().getBinary();
+		auto* obj = llvm::dyn_cast<llvm::object::ObjectFile>(generic_bin);
+		if (obj && obj->isELF()) {
+			if (auto err = parse_elf(obj, endian_,
+									 entry_, segments_, symbols_,
+									 exports_, imports_, relocs_);
+			!err)
+				return err;
+			return validate();
 		}
 
 		return std::unexpected(Error::INVALID_FORMAT);
@@ -67,27 +68,29 @@ namespace SBA::Binary {
 
 	std::expected<void, Error> Object::validate()
 	{
-		if (entry_ && !find_segment(this, *entry_)) [[unlikely]]
+		if (entry_ && !find_segment(this, *entry_))
 			return std::unexpected(Error::INVALID_ENTRY);
 
 		for (const auto& sym : symbols_)
-			if (sym.mode != SymbolMode::UNALLOCATED && sym.mode != SymbolMode::ABSOLUTE &&
-				sym.mode != SymbolMode::UNDEFINED && !find_segment(this, sym.address))
-				[[unlikely]]
+			if (sym.mode != SymbolMode::UNALLOCATED &&
+				sym.mode != SymbolMode::ABSOLUTE &&
+				sym.mode != SymbolMode::UNDEFINED &&
+				!find_segment(this, sym.address))
 					return std::unexpected(Error::INVALID_SYMBOL);
 
 		for (const auto& sym : exports_)
-			if (sym.mode != SymbolMode::UNALLOCATED && sym.mode != SymbolMode::ABSOLUTE &&
+			if (sym.mode != SymbolMode::UNALLOCATED &&
+				sym.mode != SymbolMode::ABSOLUTE &&
 				!find_segment(this, sym.address))
-				[[unlikely]]
 					return std::unexpected(Error::INVALID_SYMBOL);
 
 		auto& segs = segments_;
 		std::sort(segs.begin(), segs.end(), [](const auto& a, const auto& b) {
 			return a.address < b.address;
 		});
+
 		for (size_t i = 0; i + 1 < segs.size(); ++i)
-			if (segs[i].address + segs[i].size > segs[i + 1].address) [[unlikely]]
+			if (segs[i].address + segs[i].size > segs[i + 1].address)
 				return std::unexpected(Error::INVALID_SEGMENT);
 
 		return {};

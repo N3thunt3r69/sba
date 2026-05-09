@@ -24,13 +24,13 @@ namespace SBA::Binary {
 	{
 		uint64_t offset = addr - address;
 
-		if (offset + width > size) [[unlikely]]
+		if (offset + width > size)
 			return std::nullopt;
 
-		if (offset >= file_size) [[unlikely]]
+		if (offset >= file_size)
 			return 0;
 
-		if (!bytes || offset + width > file_size) [[unlikely]]
+		if (!bytes || offset + width > file_size)
 			return std::nullopt;
 
 		const uint8_t* ptr = bytes.get() + offset;

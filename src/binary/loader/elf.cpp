@@ -69,8 +69,8 @@ namespace SBA::Binary {
 	}
 
 	static std::expected<Symbol, Error> symbol(
-			const llvm::object::SymbolRef& symref,
-			bool strict = false)
+		const llvm::object::SymbolRef& symref,
+		bool strict = false)
 	{
 		std::string name;
 		auto exp_name = symref.getName();
@@ -224,7 +224,7 @@ namespace SBA::Binary {
 								case 2:  addend = (int16_t)*val; break;
 								case 4:  addend = (int32_t)*val; break;
 								case 8:  addend = (int64_t)*val; break;
-								default: [[unlikely]] break;
+								default: break;
 							}
 							break;
 						}
