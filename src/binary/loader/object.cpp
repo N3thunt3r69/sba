@@ -45,7 +45,7 @@ namespace SBA::Binary {
 		auto* generic_bin = bin.get().getBinary();
 		auto* obj = llvm::dyn_cast<llvm::object::ObjectFile>(generic_bin);
 		if (obj && obj->isELF()) {
-			if (auto err = parse_elf(obj, endian_,
+			if (auto err = parse_elf(obj, arch_, os_, endian_,
 									 entry_, segments_, symbols_,
 									 exports_, imports_, relocs_);
 			!err)
@@ -88,7 +88,6 @@ namespace SBA::Binary {
 		std::sort(segs.begin(), segs.end(), [](const auto& a, const auto& b) {
 			return a.address < b.address;
 		});
-
 		for (size_t i = 0; i + 1 < segs.size(); ++i)
 			if (segs[i].address + segs[i].size > segs[i + 1].address)
 				return std::unexpected(Error::INVALID_SEGMENT);

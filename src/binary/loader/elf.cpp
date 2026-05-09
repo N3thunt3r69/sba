@@ -246,6 +246,35 @@ namespace SBA::Binary {
 		return {};
 	}
 
+	static void parse_arch(const llvm::object::ObjectFile* obj, Arch& arch)
+	{
+		auto llvm_arch = obj->getArch();
+		switch (llvm_arch) {
+			case llvm::Triple::x86_64:
+				arch = Arch::X86_64;
+				break;
+			case llvm::Triple::aarch64:
+				arch = Arch::AARCH64;
+				break;
+			default:
+				arch = Arch::UNKNOWN;
+				break;
+		}
+	}
+
+	static void parse_os(const llvm::object::ObjectFile* obj, OS& os)
+	{
+		auto triple = obj->makeTriple();
+		if (triple.isOSLinux())
+			os = OS::LINUX;
+		else if (triple.isOSWindows())
+			os = OS::WINDOWS;
+		else if (triple.isOSDarwin())
+			os = OS::DARWIN;
+		else
+			os = OS::UNKNOWN;
+	}
+
 	static void parse_endian(const llvm::object::ObjectFile* obj,
 							 Endian& endian)
 	{
@@ -264,7 +293,9 @@ namespace SBA::Binary {
 	template <typename ELFT>
 	static std::expected<void, Error> parse_elf(
 		llvm::object::ELFObjectFile<ELFT>* object,
-		Endian endian,
+		Arch& arch,
+		OS& os,
+		Endian& endian,
 		std::optional<uint64_t>& entry,
 		std::vector<Segment>& segments,
 		std::vector<Symbol>& symbols,
@@ -272,6 +303,10 @@ namespace SBA::Binary {
 		std::vector<Import>& imports,
 		std::vector<Relocation>& relocs)
 	{
+		parse_arch(object, arch);
+
+		parse_os(object, os);
+
 		parse_endian(object, endian);
 
 		parse_entry(object, entry);
@@ -292,6 +327,8 @@ namespace SBA::Binary {
 
 	std::expected<void, Error> parse_elf(
 		llvm::object::ObjectFile* object,
+		Arch& arch,
+		OS& os,
 		Endian& endian,
 		std::optional<uint64_t>& entry,
 		std::vector<Segment>& segments,
@@ -301,16 +338,16 @@ namespace SBA::Binary {
 		std::vector<Relocation>& relocs)
 	{
 		if (auto* obj = llvm::dyn_cast<llvm::object::ELF64LEObjectFile>(object))
-			return parse_elf(obj, endian, entry, segments,
+			return parse_elf(obj, arch, os, endian, entry, segments,
 							 symbols, exports, imports, relocs);
 		if (auto* obj = llvm::dyn_cast<llvm::object::ELF64BEObjectFile>(object))
-			return parse_elf(obj, endian, entry, segments,
+			return parse_elf(obj, arch, os, endian, entry, segments,
 							 symbols, exports, imports, relocs);
 		if (auto* obj = llvm::dyn_cast<llvm::object::ELF32LEObjectFile>(object))
-			return parse_elf(obj, endian, entry, segments,
+			return parse_elf(obj, arch, os, endian, entry, segments,
 							 symbols, exports, imports, relocs);
 		if (auto* obj = llvm::dyn_cast<llvm::object::ELF32BEObjectFile>(object))
-			return parse_elf(obj, endian, entry, segments,
+			return parse_elf(obj, arch, os, endian, entry, segments,
 							 symbols, exports, imports, relocs);
 
 		return std::unexpected(Error::INVALID_FORMAT);

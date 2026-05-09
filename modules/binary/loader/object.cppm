@@ -19,6 +19,8 @@ export namespace SBA::Binary {
 
 		std::expected<void, Error> load(const std::string& path);
 
+		Arch arch() const { return arch_; }
+		OS os() const { return os_; }
 		Endian endian() const { return endian_; }
 		std::optional<uint64_t> entry() const { return entry_; }
 		const std::vector<Segment>& segments() const { return segments_; }
@@ -30,6 +32,8 @@ export namespace SBA::Binary {
 		std::optional<uint64_t> read(uint64_t addr, uint8_t width) const;
 
 	private:
+		Arch arch_;
+		OS os_;
 		Endian endian_;
 		std::optional<uint64_t> entry_;
 		std::vector<Segment> segments_;

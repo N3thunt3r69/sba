@@ -14,6 +14,8 @@ export namespace SBA::Binary {
 
 	std::expected<void, Error> parse_elf(
 		llvm::object::ObjectFile* object,
+		Arch& arch,
+		OS& os,
 		Endian& endian,
 		std::optional<uint64_t>& entry,
 		std::vector<Segment>& segments,

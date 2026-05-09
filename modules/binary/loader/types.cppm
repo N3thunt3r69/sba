@@ -13,6 +13,19 @@ export namespace SBA::Binary {
 		BIG
 	};
 
+	enum class Arch : uint8_t {
+		X86_64,
+		AARCH64,
+		UNKNOWN
+	};
+
+	enum class OS : uint8_t {
+		LINUX,
+		WINDOWS,
+		DARWIN,
+		UNKNOWN
+	};
+
 	enum SegmentFlag : uint8_t {
 		EXECUTABLE = 1 << 0,
 		WRITABLE   = 1 << 1,
