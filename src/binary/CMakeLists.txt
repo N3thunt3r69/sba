@@ -20,6 +20,7 @@ target_link_libraries(binary
 	PUBLIC
 		framework
 		arch
+		ir
 	PRIVATE
 		${llvm_libs}
 )
