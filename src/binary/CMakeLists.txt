@@ -19,6 +19,7 @@ target_compile_definitions(binary PRIVATE ${LLVM_DEFINITIONS})
 target_link_libraries(binary
 	PUBLIC
 		framework
+		arch
 	PRIVATE
 		${llvm_libs}
 )
