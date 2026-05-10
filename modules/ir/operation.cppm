@@ -61,13 +61,6 @@ export namespace SBA::IR {
 		}
 	};
 
-	struct MicroOp {
-		uint16_t opcode;
-		uint16_t : 16;
-		Operand  destination;
-		std::array<Operand, 2> source;
-	};
-
 	struct Operation {
 		uint64_t uop_index : 48;
 		uint64_t uop_count : 8;

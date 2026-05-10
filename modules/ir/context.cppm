@@ -39,15 +39,15 @@ export namespace SBA::IR {
 	};
 
 	struct Context {
-		std::vector<MicroOp>   uops;
-		std::vector<uint32_t>  imm32;
-		std::vector<uint64_t>  imm64;
-		std::vector<MemoryB>   memb;
-		std::vector<MemorySIB> memsib;
+		std::vector<uint32_t>	units;
+		std::vector<uint32_t>	imm32;
+		std::vector<uint64_t>	imm64;
+		std::vector<MemoryB>	memb;
+		std::vector<MemorySIB>	memsib;
 
-		std::unordered_map<uint32_t, uint32_t>          ref_imm32;
-		std::unordered_map<uint64_t, uint32_t>          ref_imm64;
-		std::unordered_map<MemoryB, uint32_t, Hasher>   ref_memb;
+		std::unordered_map<uint32_t, uint32_t>			ref_imm32;
+		std::unordered_map<uint64_t, uint32_t>			ref_imm64;
+		std::unordered_map<MemoryB, uint32_t, Hasher>	ref_memb;
 		std::unordered_map<MemorySIB, uint32_t, Hasher>	ref_memsib;
 	};
 

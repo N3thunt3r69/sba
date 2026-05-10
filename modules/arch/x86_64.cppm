@@ -10,7 +10,6 @@ export namespace SBA::Arch {
 
 	struct X86_64 {
 		enum class Reg : uint16_t {
-			NONE,
 			RAX, RBX, RCX, RDX, RSI, RDI, RBP, RSP,
 			R8,  R9,  R10, R11, R12, R13, R14, R15,
 			RIP,
