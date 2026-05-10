@@ -6,6 +6,7 @@ target_sources(ir
 			BASE_DIRS ${CMAKE_SOURCE_DIR}/modules
 			FILES
 				${CMAKE_SOURCE_DIR}/modules/ir/operation.cppm
+				${CMAKE_SOURCE_DIR}/modules/ir/context.cppm
 )
 
 target_link_libraries(ir PUBLIC arch)
