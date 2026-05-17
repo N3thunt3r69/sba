@@ -6,6 +6,15 @@ export module sba.ir.operation;
 
 export namespace SBA::IR {
 
+	enum class OperationType : uint8_t {
+		DATAFLOW,
+		SYSCALL,
+		FENCE,
+		TRAP,
+		HALT,
+		NOP
+	};
+
 	enum class OperandType : uint8_t {
 		REGISTER,
 		IMMEDIATE,
@@ -33,13 +42,18 @@ export namespace SBA::IR {
 		};
 	};
 
+	struct Expression {
+		uint16_t op;
+		uint16_t num_operands;
+	};
+
 	struct MemoryB {
 		Operand base;
 		int32_t displacement;
 
-		bool operator==(const MemoryB& other) const {
-			return base.raw == other.base.raw &&
-			       displacement == other.displacement;
+		bool operator==(const MemoryB& obj) const {
+			return base.raw == obj.base.raw &&
+				   displacement == obj.displacement;
 		}
 	};
 
@@ -62,9 +76,10 @@ export namespace SBA::IR {
 	};
 
 	struct Operation {
-		uint64_t uop_index : 48;
-		uint64_t uop_count : 8;
-		uint64_t length    : 8;
+		uint64_t type       : 8;
+		uint64_t unit_index : 40;
+		uint64_t unit_count : 8;
+		uint64_t length     : 8;
 	};
 
 }
