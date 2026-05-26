@@ -9,22 +9,110 @@ import sba.arch;
 export namespace SBA::Arch {
 
 	struct X86_64 {
-		enum class Reg : uint16_t {
-			RAX, RBX, RCX, RDX, RSI, RDI, RBP, RSP,
-			R8,  R9,  R10, R11, R12, R13, R14, R15,
-			RIP,
-			RFLAGS,
-			CS, DS, SS, ES, FS, GS,
-			CR0, CR2, CR3, CR4, CR8,
-			DR0, DR1, DR2, DR3, DR4, DR5, DR6, DR7,
-			GDTR, IDTR, LDTR, TR, MSW,
-			ST0, ST1, ST2, ST3, ST4, ST5, ST6, ST7,
-			ZMM0,  ZMM1,  ZMM2,  ZMM3,  ZMM4,  ZMM5,  ZMM6,  ZMM7,
-			ZMM8,  ZMM9,  ZMM10, ZMM11, ZMM12, ZMM13, ZMM14, ZMM15,
-			ZMM16, ZMM17, ZMM18, ZMM19, ZMM20, ZMM21, ZMM22, ZMM23,
-			ZMM24, ZMM25, ZMM26, ZMM27, ZMM28, ZMM29, ZMM30, ZMM31,
-			K0, K1, K2, K3, K4, K5, K6, K7
+		enum class SegmentReg : uint8_t {
+			CS, DS, SS, ES, FS, GS
 		};
+
+		#define REGISTER_LIST(REG) \
+			REG(RAX,    8) \
+			REG(RBX,    8) \
+			REG(RCX,    8) \
+			REG(RDX,    8) \
+			REG(RSI,    8) \
+			REG(RDI,    8) \
+			REG(RBP,    8) \
+			REG(RSP,    8) \
+			REG(R8,     8) \
+			REG(R9,     8) \
+			REG(R10,    8) \
+			REG(R11,    8) \
+			REG(R12,    8) \
+			REG(R13,    8) \
+			REG(R14,    8) \
+			REG(R15,    8) \
+			REG(RIP,    8) \
+			REG(RFLAGS, 8) \
+			REG(CR0,    8) \
+			REG(CR2,    8) \
+			REG(CR3,    8) \
+			REG(CR4,    8) \
+			REG(CR8,    8) \
+			REG(DR0,    8) \
+			REG(DR1,    8) \
+			REG(DR2,    8) \
+			REG(DR3,    8) \
+			REG(DR4,    8) \
+			REG(DR5,    8) \
+			REG(DR6,    8) \
+			REG(DR7,    8) \
+			REG(GDTR,   10) \
+			REG(IDTR,   10) \
+			REG(LDTR,   2) \
+			REG(TR,     2) \
+			REG(MSW,    2) \
+			REG(ST0,    10) \
+			REG(ST1,    10) \
+			REG(ST2,    10) \
+			REG(ST3,    10) \
+			REG(ST4,    10) \
+			REG(ST5,    10) \
+			REG(ST6,    10) \
+			REG(ST7,    10) \
+			REG(ZMM0,   64) \
+			REG(ZMM1,   64) \
+			REG(ZMM2,   64) \
+			REG(ZMM3,   64) \
+			REG(ZMM4,   64) \
+			REG(ZMM5,   64) \
+			REG(ZMM6,   64) \
+			REG(ZMM7,   64) \
+			REG(ZMM8,   64) \
+			REG(ZMM9,   64) \
+			REG(ZMM10,  64) \
+			REG(ZMM11,  64) \
+			REG(ZMM12,  64) \
+			REG(ZMM13,  64) \
+			REG(ZMM14,  64) \
+			REG(ZMM15,  64) \
+			REG(ZMM16,  64) \
+			REG(ZMM17,  64) \
+			REG(ZMM18,  64) \
+			REG(ZMM19,  64) \
+			REG(ZMM20,  64) \
+			REG(ZMM21,  64) \
+			REG(ZMM22,  64) \
+			REG(ZMM23,  64) \
+			REG(ZMM24,  64) \
+			REG(ZMM25,  64) \
+			REG(ZMM26,  64) \
+			REG(ZMM27,  64) \
+			REG(ZMM28,  64) \
+			REG(ZMM29,  64) \
+			REG(ZMM30,  64) \
+			REG(ZMM31,  64) \
+			REG(K0,     8) \
+			REG(K1,     8) \
+			REG(K2,     8) \
+			REG(K3,     8) \
+			REG(K4,     8) \
+			REG(K5,     8) \
+			REG(K6,     8) \
+			REG(K7,     8)
+
+		enum class Reg : uint16_t {
+			#define DEF_REG_ENUM(name, size) name,
+			REGISTER_LIST(DEF_REG_ENUM)
+			#undef DEF_REG_ENUM
+		};
+
+		static constexpr uint16_t length(Reg r) noexcept {
+			switch (r) {
+				#define DEF_REG_LEN(name, size) case Reg::name: return size;
+				REGISTER_LIST(DEF_REG_LEN)
+				#undef DEF_REG_LEN
+				default: return 0;
+			}
+		}
 
 		static constexpr Reg program_counter = Reg::RIP;
 		static constexpr Reg stack_pointer   = Reg::RSP;
