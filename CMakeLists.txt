@@ -31,7 +31,6 @@ llvm_map_components_to_libnames(llvm_libs
 	AArch64
 )
 
-add_subdirectory(src/framework)
 add_subdirectory(src/arch)
 add_subdirectory(src/ir)
 add_subdirectory(src/binary)

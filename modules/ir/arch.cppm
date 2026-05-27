@@ -2,12 +2,12 @@ module;
 #include <concepts>
 #include <cstdint>
 
-export module sba.arch;
+export module sba.ir.arch;
 
-export namespace SBA::Arch {
+export namespace SBA::IR {
 
 	template <typename T>
-	concept Trait = requires {
+	concept Arch = requires {
 		typename T::Reg;
 		typename T::ABI;
 

@@ -8,7 +8,7 @@ module;
 export module sba.binary.elf;
 
 import sba.binary.types;
-import sba.framework.error;
+import sba.binary.error;
 
 export namespace SBA::Binary {
 

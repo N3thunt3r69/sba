@@ -1,9 +1,9 @@
 module;
 #include <cstdint>
 
-export module sba.framework.error;
+export module sba.binary.error;
 
-export namespace SBA {
+export namespace SBA::Binary {
 
 	enum class Error : uint8_t {
 		INVALID_FORMAT,

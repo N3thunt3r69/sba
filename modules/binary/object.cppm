@@ -8,7 +8,7 @@ module;
 export module sba.binary.object;
 
 export import sba.binary.types;
-export import sba.framework.error;
+export import sba.binary.error;
 
 export namespace SBA::Binary {
 
@@ -28,7 +28,6 @@ export namespace SBA::Binary {
 		const std::vector<Export>& exports() const { return exports_; }
 		const std::vector<Import>& imports() const { return imports_; }
 		const std::vector<Relocation>& relocs() const { return relocs_; }
-
 		std::optional<uint64_t> read(uint64_t addr, uint8_t width) const;
 
 	private:

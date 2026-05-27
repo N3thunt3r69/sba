@@ -4,8 +4,6 @@ module;
 
 export module sba.arch.x86_64;
 
-import sba.arch;
-
 export namespace SBA::Arch {
 
 	struct X86_64 {
