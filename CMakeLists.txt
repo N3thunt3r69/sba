@@ -34,5 +34,6 @@ llvm_map_components_to_libnames(llvm_libs
 add_subdirectory(src/arch)
 add_subdirectory(src/ir)
 add_subdirectory(src/binary)
+add_subdirectory(src/lift)
 add_subdirectory(src/analysis)
 add_subdirectory(tools)
