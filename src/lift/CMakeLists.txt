@@ -6,8 +6,10 @@ target_sources(lift
 			BASE_DIRS ${CMAKE_SOURCE_DIR}/modules
 			FILES
 				${CMAKE_SOURCE_DIR}/modules/lift/dedup.cppm
+				${CMAKE_SOURCE_DIR}/modules/lift/decoder.cppm
 	PRIVATE
 		dedup.cpp
+		decoder.cpp
 )
 
 target_link_libraries(lift
@@ -15,4 +17,5 @@ target_link_libraries(lift
 		arch
 		ir
 		binary
+		${llvm_libs}
 )

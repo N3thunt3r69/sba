@@ -17,8 +17,6 @@ export namespace SBA::Binary {
 		Object() = default;
 		~Object() = default;
 
-		std::expected<void, Error> load(const std::string& path);
-
 		Arch arch() const { return arch_; }
 		OS os() const { return os_; }
 		Endian endian() const { return endian_; }
@@ -29,6 +27,9 @@ export namespace SBA::Binary {
 		const std::vector<Import>& imports() const { return imports_; }
 		const std::vector<Relocation>& relocs() const { return relocs_; }
 		std::optional<uint64_t> read(uint64_t addr, uint8_t width) const;
+
+		static const char* triple(Arch arch, OS os);
+		std::expected<void, Error> load(const std::string& path);
 
 	private:
 		Arch arch_;
