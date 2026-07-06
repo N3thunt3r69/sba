@@ -26,17 +26,17 @@ export namespace SBA::IR {
 			uint32_t raw;
 
 			struct {
-				uint32_t type      : 2;
-				uint32_t lg_length : 4;
-				uint32_t id        : 16;
-				uint32_t offset    : 8;
-				uint32_t           : 2;
+				uint32_t type       : 2;
+				uint32_t log_length : 4;
+				uint32_t id         : 16;
+				uint32_t offset     : 8;
+				uint32_t            : 2;
 			} reg;
 
 			struct {
-				uint32_t type      : 2;
-				uint32_t lg_length : 4;
-				uint32_t index     : 26;
+				uint32_t type       : 2;
+				uint32_t log_length : 4;
+				uint32_t index      : 26;
 			} ref;
 		};
 	};

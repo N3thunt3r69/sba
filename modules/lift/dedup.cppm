@@ -8,14 +8,13 @@ export module sba.lift.dedup;
 import sba.ir.operation;
 import sba.ir.stream;
 import sba.ir.semantics;
+import sba.util.container;
 
 export namespace SBA::Lift {
 
 	struct Hasher {
-		const std::vector<uint8_t>* raw = nullptr;
+		const SBA::Util::PVector<uint8_t>* raw = nullptr;
 
-		static std::size_t hash(const SBA::IR::Memory& m) noexcept;
-		static std::size_t hash(const SBA::IR::MemorySIB& m) noexcept;
 		std::size_t operator()(const SBA::IR::Memory& m) const noexcept;
 		std::size_t operator()(const SBA::IR::MemorySIB& m) const noexcept;
 
@@ -27,16 +26,16 @@ export namespace SBA::Lift {
 	struct IRCache {
 		SBA::IR::IRStream& stream;
 
-		std::unordered_map<uint32_t, uint32_t> imm32;
-		std::unordered_map<uint64_t, uint32_t> imm64;
-		std::unordered_map<SBA::IR::Memory, uint32_t, Hasher> mem;
-		std::unordered_map<SBA::IR::MemorySIB, uint32_t, Hasher> memsib;
-		std::unordered_map<SBA::IR::Operation, uint32_t, Hasher, Hasher> op;
+		SBA::Util::PMap<uint32_t, uint32_t> imm32;
+		SBA::Util::PMap<uint64_t, uint32_t> imm64;
+		SBA::Util::PMap<SBA::IR::Memory, uint32_t, Hasher> mem;
+		SBA::Util::PMap<SBA::IR::MemorySIB, uint32_t, Hasher> memsib;
+		SBA::Util::PMap<SBA::IR::Operation, uint32_t, Hasher, Hasher> op;
 
 		IRCache(SBA::IR::IRStream& stream)
 			: stream(stream),
-			  op(0, Hasher{&stream.raw},
-					Hasher{&stream.raw}) {}
+			  op(Hasher{&stream.raw},
+				 Hasher{&stream.raw}) {}
 	};
 
 }

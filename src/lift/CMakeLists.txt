@@ -17,5 +17,6 @@ target_link_libraries(lift
 		arch
 		ir
 		binary
+		util
 		${llvm_libs}
 )

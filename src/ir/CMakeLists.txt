@@ -10,3 +10,5 @@ target_sources(ir
 				${CMAKE_SOURCE_DIR}/modules/ir/stream.cppm
 				${CMAKE_SOURCE_DIR}/modules/ir/semantics.cppm
 )
+
+target_link_libraries(ir PUBLIC util)
